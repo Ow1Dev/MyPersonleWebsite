@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyPersonelWebsite.Data;
-using MyPersonelWebsite.data.Models;
+using MyPersonelWebsite.Data.Models;
 
 namespace MyPersonelWebsite
 {

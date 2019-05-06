@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyPersonelWebsite.data.Models
+namespace MyPersonelWebsite.Data.Models
 {
     public class Skill
     {

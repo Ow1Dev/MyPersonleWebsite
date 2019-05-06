@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyPersonelWebsite.data.Models
+namespace MyPersonelWebsite.Data.Models
 {
     public class Contact
     {

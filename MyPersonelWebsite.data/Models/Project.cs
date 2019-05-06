@@ -1,4 +1,4 @@
-﻿namespace MyPersonelWebsite.data.Models
+﻿namespace MyPersonelWebsite.Data.Models
 {
     public class Project
     {

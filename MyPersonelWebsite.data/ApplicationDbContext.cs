@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyPersonelWebsite.data.Models;
+using MyPersonelWebsite.Data.Models;
 
 namespace MyPersonelWebsite.Data
 {

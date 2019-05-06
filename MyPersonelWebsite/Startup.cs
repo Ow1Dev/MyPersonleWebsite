@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyPersonelWebsite.Data;
 using MyPersonelWebsite.Data.Models;
+using MyPersonelWebsite.Service;
 
 namespace MyPersonelWebsite
 {
@@ -40,6 +41,9 @@ namespace MyPersonelWebsite
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IProject, ProjectService>();
+            services.AddScoped<ITag, TagService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

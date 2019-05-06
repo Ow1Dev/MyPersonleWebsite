@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MyPersonelWebsite.data.Migrations
+namespace MyPersonelWebsite.Data.Migrations
 {
     public partial class InitCreate : Migration
     {

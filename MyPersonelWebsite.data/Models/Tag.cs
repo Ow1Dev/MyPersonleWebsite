@@ -8,6 +8,6 @@ namespace MyPersonelWebsite.Data.Models
     {
         public int Id { get; set; }
         public string tag { get; set; }
-        public virtual IEnumerable<Project> Projects { get; set; }
+        public IEnumerable<ProjectTag> ProjectLink { get; set; }
     }
 }

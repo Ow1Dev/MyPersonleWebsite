@@ -1,0 +1,30 @@
+﻿@model MyPersonelWebsite.Models.Projects.ProjectIndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Projects</h2>
+
+<table class="table table-hover" id="ProjectIndexTable">
+    <tbody>
+        @foreach (var project in Model.ProjectList)
+        {
+            <tr>
+                <td>
+                    @project.Name
+                </td>
+                <td>
+                    @project.Description
+                </td>
+                <td style="display: flex">
+                    <p>tags: </p>
+                    @foreach (var item in project.tags)
+                    {
+                        <a href="javascript:void(0)">@item.tag</a>
+                        <span style="margin-right: 2px">,</span>    
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

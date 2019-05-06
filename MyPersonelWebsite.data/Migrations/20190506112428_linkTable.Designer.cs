@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyPersonelWebsite.Data;
 
-namespace MyPersonelWebsite.data.Migrations
+namespace MyPersonelWebsite.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190506082237_InitCreate")]
-    partial class InitCreate
+    [Migration("20190506112428_linkTable")]
+    partial class linkTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,7 +134,7 @@ namespace MyPersonelWebsite.data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.ApplicationUser", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -186,7 +185,7 @@ namespace MyPersonelWebsite.data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.Contact", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -203,7 +202,7 @@ namespace MyPersonelWebsite.data.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.Project", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,18 +210,27 @@ namespace MyPersonelWebsite.data.Migrations
 
                     b.Property<string>("Desciption");
 
-                    b.Property<int?>("TagId");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagId");
-
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.Skill", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.ProjectTag", b =>
+                {
+                    b.Property<int>("ProjectId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("ProjectId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ProjectTag");
+                });
+
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,7 +245,7 @@ namespace MyPersonelWebsite.data.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.Tag", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,7 +268,7 @@ namespace MyPersonelWebsite.data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("MyPersonelWebsite.data.Models.ApplicationUser")
+                    b.HasOne("MyPersonelWebsite.Data.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -268,7 +276,7 @@ namespace MyPersonelWebsite.data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("MyPersonelWebsite.data.Models.ApplicationUser")
+                    b.HasOne("MyPersonelWebsite.Data.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -281,7 +289,7 @@ namespace MyPersonelWebsite.data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyPersonelWebsite.data.Models.ApplicationUser")
+                    b.HasOne("MyPersonelWebsite.Data.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -289,17 +297,23 @@ namespace MyPersonelWebsite.data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("MyPersonelWebsite.data.Models.ApplicationUser")
+                    b.HasOne("MyPersonelWebsite.Data.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MyPersonelWebsite.data.Models.Project", b =>
+            modelBuilder.Entity("MyPersonelWebsite.Data.Models.ProjectTag", b =>
                 {
-                    b.HasOne("MyPersonelWebsite.data.Models.Tag", "Tag")
-                        .WithMany("Projects")
-                        .HasForeignKey("TagId");
+                    b.HasOne("MyPersonelWebsite.Data.Models.Project", "project")
+                        .WithMany("TagLink")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyPersonelWebsite.Data.Models.Tag", "tag")
+                        .WithMany("ProjectLink")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

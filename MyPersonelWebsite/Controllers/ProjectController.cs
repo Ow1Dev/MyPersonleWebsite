@@ -12,48 +12,71 @@ namespace MyPersonelWebsite.Controllers
     {
         private readonly IProject _ProjectService;
         private readonly ITag _TagService;
+        private readonly ISkill _SkillService;
 
 
-        public ProjectController (
+        public ProjectController(
             IProject projectService,
-            ITag TagService
+            ITag TagService,
+            ISkill SkillService
             )
         {
             _ProjectService = projectService;
             _TagService = TagService;
+            _SkillService = SkillService;
         }
 
         public IActionResult Index()
         {
             var projects = _ProjectService.GetAll()
-                .Select(project => new ProjectListingModel {
+                .Select(project => new ProjectListingModel
+                {
                     Id = project.Id,
                     Name = project.Title,
                     Description = project.Desciption,
-                    tags = _TagService.getTagsbyProject(project)
-                });
+                    tags = _TagService.getTagsbyProject(project.Id)
+                }).ToList();
 
-            
+
             var model = new ProjectIndexModel
             {
-                ProjectList = projects
+                ProjectList = projects,
+                SkillList = _SkillService.GetAll().Reverse().ToList()
             };
 
             return View(model);
         }
 
-        //GET Project/test
-        public IActionResult test()
+        public IActionResult View(string Title)
         {
-            Tag tag = new Tag
+            var project = _ProjectService.GetbyTitle(Title);
+            if(project != null)
             {
-                tag = "Csharp"
-            };
+                var model = BuildProjectLising(_ProjectService.GetbyTitle(Title));
+                return View(model);
+            }
 
+            return RedirectToAction("Index", "Project");
+        }
+
+        public static ProjectListingModel BuildProjectLising(Project project)
+        {
+            return new ProjectListingModel
+            {
+                Id = project.Id,
+                Name = project.Title,
+                Description = project.Desciption,
+            };
+        }
+
+        //POST Project/TestCreate
+        [HttpPost]
+        public async Task<IActionResult> TestCreate()
+        {
             Project project = new Project
             {
-                Title = "test",
-                Desciption = "This is a test",
+                Title = "secound code test",
+                Desciption = "This a project that was create by code",
             };
 
             project.TagLink = new List<ProjectTag>
@@ -61,15 +84,26 @@ namespace MyPersonelWebsite.Controllers
                 new ProjectTag
                 {
                     project = project,
-                    tag = tag
+                    tag = _TagService.getById(10)
+                },
+                new ProjectTag
+                {
+                    project = project,
+                    tag = _TagService.getById(11)
                 }
             };
 
-            Task t = _ProjectService.Create(project);
-            //if(t.Status)
-            
+            await _ProjectService.Create(project);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project");
+        }
+
+        //POST Project/TestDelete/{id}
+        [HttpDelete]
+        public async Task<IActionResult> TestDelete(int id)
+        {
+            await _ProjectService.Delete(id);
+            return RedirectToAction("Index", "Project");
         }
     }
 }

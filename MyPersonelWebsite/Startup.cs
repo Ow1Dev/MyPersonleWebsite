@@ -44,6 +44,7 @@ namespace MyPersonelWebsite
 
             services.AddScoped<IProject, ProjectService>();
             services.AddScoped<ITag, TagService>();
+            services.AddScoped<ISkill, SkillService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

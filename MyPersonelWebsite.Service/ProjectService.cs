@@ -23,20 +23,29 @@ namespace MyPersonelWebsite.Service
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(Project project)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            _context.Projects.Remove(GetById(id));
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Project> GetAll()
         {
-            return _context.Projects
+            var pro = _context.Projects
                 .Include(project => project.TagLink).ThenInclude(TagLink => TagLink.tag);
+
+            return pro;
         }
 
         public Project GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Projects.Where(project => project.Id == id).SingleOrDefault();
+        }
+
+        public Project GetbyTitle(string title)
+        {
+            title = string.IsNullOrEmpty(title) ? "" : title;
+            return _context.Projects.Where(project => project.Title.ToLower() == title.ToLower()).SingleOrDefault();
         }
     }
 
@@ -57,12 +66,18 @@ namespace MyPersonelWebsite.Service
 
         public IEnumerable<Tag> getAll()
         {
-            return _context.Tags.OrderBy(x => x.Id).Include(x => x.ProjectLink);
+            return _context.Tags
+                .Include(x => x.ProjectLink);
         }
 
-        public IEnumerable<Tag> getTagsbyProject(Project project)
+        public Tag getById(int id)
         {
-            var tags = getAll().Where(tag => tag.ProjectLink.Where(p => p.project.Id == project.Id).Any());
+            return _context.Tags.Single(Tag => Tag.Id == id);
+        }
+
+        public IEnumerable<Tag> getTagsbyProject(int projectId)
+        {
+            var tags = getAll().Where(tag => tag.ProjectLink.Where(p => p.project.Id == projectId).Any());
             return tags;
         }
     }

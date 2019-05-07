@@ -9,7 +9,11 @@ namespace MyPersonelWebsite.Data
     public interface ITag
     {
         IEnumerable<Tag> getAll();
-        IEnumerable<Tag> getTagsbyProject(Project project);
+
+        //TODO: rename it to getTagsbyProjectId
+        IEnumerable<Tag> getTagsbyProject(int projectId);
+
+        Tag getById(int id);
 
         Task Create(Tag tag);
     }

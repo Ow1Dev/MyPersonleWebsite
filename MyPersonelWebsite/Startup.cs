@@ -71,6 +71,12 @@ namespace MyPersonelWebsite
 
             app.UseMvc(routes =>
             {
+               routes.MapAreaRoute(
+                    name: "AdminPanelArea",
+                    areaName: "AdminPanel",
+                    template: "AdminPanel/{controller=Home}/{action=Index}/{id?}");
+
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

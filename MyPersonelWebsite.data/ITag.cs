@@ -16,5 +16,7 @@ namespace MyPersonelWebsite.Data
         Tag getById(int id);
 
         Task Create(Tag tag);
+        Task UpdateName(int id, string name);
+        Task Delete(int id);
     }
 }

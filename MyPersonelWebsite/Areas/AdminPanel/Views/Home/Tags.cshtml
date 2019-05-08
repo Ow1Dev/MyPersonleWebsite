@@ -1,0 +1,125 @@
+﻿@model MyPersonelWebsite.Areas.AdminPanel.Models.Tags.TagViewModel
+@{
+    ViewData["Title"] = "Tags";
+}
+<button class="btn btn-success float-right mb-2" data-toggle="modal" data-target="#CreateTagModal">Create Tag</button>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Project Count</th>
+            <th class="text-right mr-2">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tag in Model.tags)
+        {
+            <tr data-tagid="@tag.Id">
+                <td><p class="_name m-0">@tag.name</p></td>
+                <td>@tag.ProjectCount</td>
+                <td class="">
+                    <a href="javascript:void(0)" class="_Delete mr-2 float-right ml-2 text-danger"><span class="fas fa-trash"></span></a>
+                    <a href="javascript:void(0)" class="_Edit mr-2 float-right ml-2 text-primary"><span class="fas fa-wrench"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Modals {
+    <div class="modal fade" id="CreateTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new Tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Home" asp-action="TagCreate" id="CTForm" method="post">
+                        <div class="form-group">
+                            <label class="col-form-label">Name</label>
+                            <input asp-for="input.name" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="CreateTag" type="button" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="DeleteTagModal" tabindex="-1" role="dialog" data-DId="" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="Home" asp-action="TagDelete" id="DTForm" method="post">
+                    <input type="number" name="Id" hidden class="_Tid"/>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="DeleteTag" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="EditTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rename Tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Home" asp-action="TagEdit" id="ETForm" method="post">
+                        <div class="form-group">
+                            <label class="col-form-label">Name</label>
+                            <input asp-for="input.name" class="_tagName form-control">
+                            <input asp-for="input.Id" hidden class="_Tid form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="EditTag" type="button" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $("#CreateTag").click(function () {
+            $("#CTForm").submit();
+        });
+
+        $("._Delete").click(function () {
+            $("#DeleteTagModal").find("._Tid").val($(this).parent().parent().data("tagid"))
+            $("#DeleteTagModal").modal("show");
+        });
+
+        $("#DeleteTag").click(function () {
+            $("#DTForm").submit();
+        });
+
+        $("._Edit").click(function () {
+            $("#EditTagModal").find("._Tid").val($(this).parent().parent().data("tagid"))
+            $("#EditTagModal").find("._tagName").val($(this).parent().parent().find("._name").html())
+            $("#EditTagModal").modal("show");
+        })
+
+        $("#EditTag").click(function () {
+             $("#ETForm").submit();
+        })
+    </script>
+}

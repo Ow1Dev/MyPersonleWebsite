@@ -39,7 +39,7 @@ namespace MyPersonelWebsite.Service
 
         public Project GetById(int id)
         {
-            return _context.Projects.Where(project => project.Id == id).SingleOrDefault();
+            return _context.Projects.Where(project => project.Id == id).FirstOrDefault();
         }
 
         public Project GetbyTitle(string title)
@@ -60,7 +60,16 @@ namespace MyPersonelWebsite.Service
 
         public async Task Create(Tag tag)
         {
-            _context.Tags.Add(tag);
+            if(!String.IsNullOrEmpty(tag.tag))
+            {
+                _context.Tags.Add(tag);
+                await _context.SaveChangesAsync(); ;
+            }
+        }
+
+        public async Task Delete(int id)
+        {
+            _context.Tags.Remove(getById(id));
             await _context.SaveChangesAsync(); ;
         }
 
@@ -79,6 +88,14 @@ namespace MyPersonelWebsite.Service
         {
             var tags = getAll().Where(tag => tag.ProjectLink.Where(p => p.project.Id == projectId).Any());
             return tags;
+        }
+
+        public async Task UpdateName(int id, string name)
+        {
+            var tag = getById(id);
+            tag.tag = name;
+            _context.Tags.Update(tag);
+            await _context.SaveChangesAsync();
         }
     }
 }

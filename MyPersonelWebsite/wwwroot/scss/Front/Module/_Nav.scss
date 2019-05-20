@@ -1,0 +1,106 @@
+﻿nav {
+    .burger {
+        display: inline-block;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 5;
+
+        .bar {
+            width: 35px;
+            height: 5px;
+            background-color: #333;
+            margin: 6px 0;
+            transition: 0.4s;
+            border-radius: 4px;
+        }
+
+        &.change .bar {
+            background-color: #f6f6f6;
+
+            &:first-child {
+                -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+                transform: rotate(-45deg) translate(-9px, 6px);
+            }
+
+            &:nth-child(2) {
+                opacity: 0;
+            }
+
+            &:last-child {
+                -webkit-transform: rotate(45deg) translate(-8px, -8px);
+                transform: rotate(45deg) translate(-8px, -8px);
+            }
+        }
+    }
+
+    #menu {
+        min-height: 100vh;
+        min-width: 100vw;
+        pointer-events: none;
+        position: fixed;
+        z-index: 3;
+        top: 0px;
+
+        ul {
+            pointer-events: all;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            min-width: 100vw;
+            min-height: 100vh;
+            transform: translate(100%, 0);
+            background: #333;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            list-style: none;
+            padding: 0;
+            float: right;
+            transition-duration: 0.2s;
+            transition-timing-function: cubic-bezier(0.42, 0, 0, 1.03);
+
+            @media screen and (min-width: 1000px) {
+                width: 300px;
+                min-width: 0;
+            }
+
+            li {
+                width: 100%;
+                padding: 0 2em;
+
+                &.active a {
+                    color: tomato;
+                }
+
+                &:first-child {
+                    margin-top: 15em;
+                }
+
+                a {
+                    color: #fff;
+                    text-decoration: none;
+                    text-align: left;
+                    font-size: 2.5em;
+
+                    &:hover {
+                        color: tomato;
+                    }
+                }
+
+                @media screen and (max-width: 1000px) {
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .burger.change ~ #menu ul {
+        transform: translate(0, 0);
+        -webkit-box-shadow: -1px 0px 24px 2px rgba(0,0,0,0.75);
+        -moz-box-shadow: -1px 0px 24px 2px rgba(0,0,0,0.75);
+        box-shadow: -1px 0px 24px 2px rgba(0,0,0,0.75);
+    }
+}

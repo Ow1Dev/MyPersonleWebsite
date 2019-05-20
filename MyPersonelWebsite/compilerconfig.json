@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/css/admin_Style.css",
     "inputFile": "wwwroot/scss/Admin/admin_Style.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Front_Main.css",
+    "inputFile": "wwwroot/scss/Front/Main.scss"
   }
 ]

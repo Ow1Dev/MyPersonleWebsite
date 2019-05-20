@@ -7,7 +7,7 @@ namespace MyPersonelWebsite.Areas.AdminPanel.Models.Tags
 {
     public class TagListing
     {
-        public int Id { get; set; }
+        public string Nortag { get; set; }
         public string name { get; set; }
         public int ProjectCount { get; set; }
     }

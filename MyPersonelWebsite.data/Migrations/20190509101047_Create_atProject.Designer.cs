@@ -3,14 +3,16 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MyPersonelWebsite.Data;
 
 namespace MyPersonelWebsite.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190509101047_Create_atProject")]
+    partial class Create_atProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,8 +195,6 @@ namespace MyPersonelWebsite.Data.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("HasRead");
-
                     b.Property<DateTime>("Post_at");
 
                     b.HasKey("Id");
@@ -212,10 +212,6 @@ namespace MyPersonelWebsite.Data.Migrations
 
                     b.Property<string>("Desciption");
 
-                    b.Property<string>("HTMLPath");
-
-                    b.Property<string>("ImgPath");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -227,11 +223,11 @@ namespace MyPersonelWebsite.Data.Migrations
                 {
                     b.Property<int>("ProjectId");
 
-                    b.Property<string>("NomalizedTag");
+                    b.Property<int>("TagId");
 
-                    b.HasKey("ProjectId", "NomalizedTag");
+                    b.HasKey("ProjectId", "TagId");
 
-                    b.HasIndex("NomalizedTag");
+                    b.HasIndex("TagId");
 
                     b.ToTable("ProjectTag");
                 });
@@ -253,12 +249,13 @@ namespace MyPersonelWebsite.Data.Migrations
 
             modelBuilder.Entity("MyPersonelWebsite.Data.Models.Tag", b =>
                 {
-                    b.Property<string>("NomalizedTag")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("tag");
 
-                    b.HasKey("NomalizedTag");
+                    b.HasKey("Id");
 
                     b.ToTable("Tags");
                 });
@@ -310,14 +307,14 @@ namespace MyPersonelWebsite.Data.Migrations
 
             modelBuilder.Entity("MyPersonelWebsite.Data.Models.ProjectTag", b =>
                 {
-                    b.HasOne("MyPersonelWebsite.Data.Models.Tag", "tag")
-                        .WithMany("ProjectLink")
-                        .HasForeignKey("NomalizedTag")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("MyPersonelWebsite.Data.Models.Project", "project")
                         .WithMany("TagLink")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyPersonelWebsite.Data.Models.Tag", "tag")
+                        .WithMany("ProjectLink")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

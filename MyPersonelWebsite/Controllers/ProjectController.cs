@@ -68,42 +68,5 @@ namespace MyPersonelWebsite.Controllers
                 Description = project.Desciption,
             };
         }
-
-        //POST Project/TestCreate
-        [HttpPost]
-        public async Task<IActionResult> TestCreate()
-        {
-            Project project = new Project
-            {
-                Title = "secound code test",
-                Desciption = "This a project that was create by code",
-            };
-
-            project.TagLink = new List<ProjectTag>
-            {
-                new ProjectTag
-                {
-                    project = project,
-                    tag = _TagService.getById(10)
-                },
-                new ProjectTag
-                {
-                    project = project,
-                    tag = _TagService.getById(11)
-                }
-            };
-
-            await _ProjectService.Create(project);
-
-            return RedirectToAction("Index", "Project");
-        }
-
-        //POST Project/TestDelete/{id}
-        [HttpDelete]
-        public async Task<IActionResult> TestDelete(int id)
-        {
-            await _ProjectService.Delete(id);
-            return RedirectToAction("Index", "Project");
-        }
     }
 }

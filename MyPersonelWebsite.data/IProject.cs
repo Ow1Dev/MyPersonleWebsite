@@ -11,6 +11,7 @@ namespace MyPersonelWebsite.Data
         IEnumerable<Project> GetAll();
 
         Task Create(Project project);
+        Task Edit(Project project);
         Task Delete(int id);
     }
 }

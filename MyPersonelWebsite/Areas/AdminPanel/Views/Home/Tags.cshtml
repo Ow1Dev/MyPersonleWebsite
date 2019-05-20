@@ -14,7 +14,7 @@
     <tbody>
         @foreach (var tag in Model.tags)
         {
-            <tr data-tagid="@tag.Id">
+            <tr data-tagid="@tag.Nortag">
                 <td><p class="_name m-0">@tag.name</p></td>
                 <td>@tag.ProjectCount</td>
                 <td class="">
@@ -61,7 +61,7 @@
                     </button>
                 </div>
                 <form asp-controller="Home" asp-action="TagDelete" id="DTForm" method="post">
-                    <input type="number" name="Id" hidden class="_Tid"/>
+                    <input type="hidden" name="NorTag" class="_Tid"/>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label class="col-form-label">Name</label>
                             <input asp-for="input.name" class="_tagName form-control">
-                            <input asp-for="input.Id" hidden class="_Tid form-control">
+                            <input asp-for="input.Nortag" hidden class="_Tid form-control">
                         </div>
                     </form>
                 </div>

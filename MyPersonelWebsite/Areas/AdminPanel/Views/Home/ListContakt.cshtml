@@ -1,0 +1,72 @@
+﻿@model MyPersonelWebsite.Areas.AdminPanel.Models.Contact.ContactViewModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<table class="table table-hover">
+    <tbody>
+        @foreach (var item in Model.contacts)
+        {
+            <tr data-id="@item.Id" class="@(item.HasRead ? "table-active" : "")">
+                <td>@item.Email</td>
+                <td>@(item.Content.Length > 32 ? item.Content.Substring(0, 32) + ".." : item.Content)</td>
+                <td class="text-right">@item.Send_at</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Modals {
+<div class="modal fade" id="ShowMessegeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="model-title-email"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-body-content"></p>
+                <form asp-controller="Home" asp-action="DeleteContact" id="DeleteForm" method="post" hidden>
+                    <input type="hidden" name="id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="_DeleteMessege btn btn-danger">Delete Messege</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    <script>
+        let currId = 0;
+        $("tr").click(function () {
+            let Curr = $(this);
+            currId = Curr.data("id");
+            $.ajax({
+                url: "@Url.Action("getMessege", "Home")/" + currId,
+                type: "GET",
+                data: {},
+                success: function (response) {
+                    Curr.addClass("table-active");
+                    $(".modal-body-content").text(response.value.content);
+                    $("#model-title-email").text(response.value.email);
+                    $("#DeleteForm input").val(currId);
+                    $("#ShowMessegeModal").modal("show");
+                },
+                error: function () {
+                }
+            });
+
+            $("#ShowMessegeModal").modal("show");
+        })
+
+        $("._DeleteMessege").click(function () {
+            $("#DeleteForm").submit();
+        });
+    </script>
+}

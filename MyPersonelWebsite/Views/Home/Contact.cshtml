@@ -1,17 +1,21 @@
-﻿@{
+﻿@model MyPersonelWebsite.Models.Contakt.SendViewModel
+@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<h2 class="center-block text-center">Contackt me</h2>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<form asp-controller="Home" asp-action="SendContact" method="post">
+    <div class="form-group col-5">
+        <label>Email</label>
+        <input asp-for="input.Email" class="form-control" />
+    </div>
+    <div class="form-group col-5">
+        <label>Content</label>
+        <textarea asp-for="input.Content" class="form-control" maxlength="10000" style="height: 10em"></textarea>
+    </div>
+    <button class="btn btn-default center-block">Send</button>
+</form>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+}

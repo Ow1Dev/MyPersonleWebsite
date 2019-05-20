@@ -1,0 +1,117 @@
+﻿@model MyPersonelWebsite.Areas.AdminPanel.Models.Project.Project_edit
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h1 class="text-center">Edit Project</h1>
+
+<form asp-controller="Home" asp-action="EditProject" id="ProjectForm" method="post" enctype="multipart/form-data">
+    <input asp-for="input.Id" hidden value="@Model.input.Id" />
+    <div class="form-group">
+        <label asp-for="input.Title"></label>
+        <input asp-for="input.Title" value="@Model.input.Title" required class="form-control col-5" />
+    </div>
+    <label>Tags </label>
+    <div class="chips-input form-group">
+        <div class="chipsSpace">
+            @foreach (var tag in Model.input.Tags)
+            {
+                <a class="chips" data-value="@tag.tag">@tag.tag <span class="fas fa-times"></span></a>
+            }
+            <input type="text" list="Users" name="Tag" autocomplete="off" maxlength="11" data-role="tagsinput" id="recipient-name">
+            <input type="text" hidden name="Tags">
+        </div>
+        <datalist id="Users">
+            @foreach (var item in Model.Tags)
+            {
+                <option>@item.tag</option>
+            }
+        </datalist>
+    </div>
+    <div class="form-group">
+        <label asp-for="input.Description"></label>
+        <textarea asp-for="input.Description" maxlength="255" class="form-control col-12">@Model.input.Description</textarea>
+    </div>
+    <div class="custom-file mb-3">
+        <input type="file" name="file" class="custom-file-input" id="validatedCustomFile">
+        <label class="custom-file-label" for="validatedCustomFile">Choose file</label>
+    </div>
+    <div id="editor-container" class="mb-3">
+        @Html.Raw(Model.input.Context)
+    </div>
+    <input asp-for="input.Context" type="hidden" id="_RTContent" value="" />
+</form>
+<div class="d-flex justify-content-center mb-2">
+    <button class="_CreateProject btn btn-success mr-1">Edit</button>
+    <button class="_Back btn btn-danger ml-1">Cancel</button>
+</div>
+
+@section stylesheet {
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <script src="~/js/Chips.js"></script>
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="~/js/image-resize.js"></script>
+    <script>
+        function imageHandler(image, callback) {
+            debugger;
+        };
+
+        var toolbarOptions = [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'align': [] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            ['image'],
+            [{ 'color': [] }, { 'background': [] }],
+
+            ['clean']
+        ];
+
+
+        var quill = new Quill('#editor-container', {
+            modules: {
+                toolbar: {
+                    container: toolbarOptions,
+                    handlers: {
+                        image: imageHandler
+                    }
+                },
+                imageResize: {}
+            },
+            theme: 'snow',
+        });
+
+        function imageHandler() {
+            var range = this.quill.getSelection();
+            var value = prompt('What is the image URL');
+            this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+        }
+    </script>
+    <script>
+        $("._CreateProject").click(function () {
+            $("#ProjectForm").submit();
+        });
+
+        $("._Back").click(function () {
+            window.location = "@Url.Action("ListProjects", "Home")";
+        })
+
+        $("form").on("submit", function (e) {
+            //e.preventDefault();
+            $("input#_RTContent").val(document.querySelector(".ql-editor").innerHTML);
+            console.log(document.querySelector(".ql-editor").innerHTML);
+            $("input[name='Tags']").val("");
+            $(".chips").each(function (i) {
+                $("input[name='Tags']").val($("input[name='Tags']").val() + "," + $(this).data("value"));
+            })
+        });
+    </script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+}

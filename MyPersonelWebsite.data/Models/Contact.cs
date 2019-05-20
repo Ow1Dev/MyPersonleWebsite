@@ -7,6 +7,7 @@ namespace MyPersonelWebsite.Data.Models
         public int Id { get; set; }
         public string Email { get; set; }
         public string Content { get; set; }
-        public DateTime Post_at { get; set; }
+        public DateTime Post_at { get; set; } = DateTime.Now;
+        public bool HasRead { get; set; } = false;
     }
 }

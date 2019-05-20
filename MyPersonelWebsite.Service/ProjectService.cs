@@ -29,6 +29,12 @@ namespace MyPersonelWebsite.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task Edit(Project project)
+        {
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+        }
+
         public IEnumerable<Project> GetAll()
         {
             var pro = _context.Projects
@@ -58,19 +64,30 @@ namespace MyPersonelWebsite.Service
             _context = context;
         }
 
+        public async Task ClearTagsOnProject(int Projectid)
+        {
+            var Tags = getTagsbyProject(Projectid);
+            foreach (var item in Tags)
+            {
+                item.ProjectLink.Remove(item.ProjectLink.Where(pl => pl.ProjectId == Projectid).FirstOrDefault());
+            }
+            _context.SaveChanges();
+        }
+
         public async Task Create(Tag tag)
         {
             if(!String.IsNullOrEmpty(tag.tag))
             {
+                tag.NomalizedTag = tag.tag.ToUpper();
                 _context.Tags.Add(tag);
                 await _context.SaveChangesAsync(); ;
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(string tag)
         {
-            _context.Tags.Remove(getById(id));
-            await _context.SaveChangesAsync(); ;
+            _context.Tags.Remove(getByNorTag(tag.ToUpper()));
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Tag> getAll()
@@ -79,21 +96,29 @@ namespace MyPersonelWebsite.Service
                 .Include(x => x.ProjectLink);
         }
 
-        public Tag getById(int id)
+        public Tag getByNorTag(string Nortag)
         {
-            return _context.Tags.Single(Tag => Tag.Id == id);
+            return _context.Tags.Single(Tag => Tag.NomalizedTag == Nortag);
         }
 
         public IEnumerable<Tag> getTagsbyProject(int projectId)
         {
-            var tags = getAll().Where(tag => tag.ProjectLink.Where(p => p.project.Id == projectId).Any());
-            return tags;
+            try
+            {
+                var tags = getAll().Where(tag => tag.ProjectLink.Where(p => p.ProjectId == projectId).Any());
+                return tags;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
-        public async Task UpdateName(int id, string name)
+        public async Task UpdateName(string tagname, string name)
         {
-            var tag = getById(id);
+            var tag = getByNorTag(tagname.ToUpper());
             tag.tag = name;
+            tag.NomalizedTag = name.ToUpper();
             _context.Tags.Update(tag);
             await _context.SaveChangesAsync();
         }

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MyPersonelWebsite.Data.Models
 {
     public class Tag
     {
-        public int Id { get; set; }
+        [Key]
+        public string NomalizedTag { get; set; }
         public string tag { get; set; }
-        public IEnumerable<ProjectTag> ProjectLink { get; set; }
+        public ICollection<ProjectTag> ProjectLink { get; set; } = new List<ProjectTag>();
     }
 }

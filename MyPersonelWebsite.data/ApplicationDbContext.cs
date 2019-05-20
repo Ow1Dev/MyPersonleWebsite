@@ -16,7 +16,7 @@ namespace MyPersonelWebsite.Data
             base.OnModelCreating(modelbuilder);
 
             modelbuilder.Entity<ProjectTag>()
-                .HasKey(x => new { x.ProjectId, x.TagId });
+                .HasKey(x => new { x.ProjectId, x.NomalizedTag });
 
             modelbuilder.Entity<ProjectTag>()
                 .HasOne(pt => pt.project)
@@ -26,7 +26,7 @@ namespace MyPersonelWebsite.Data
             modelbuilder.Entity<ProjectTag>()
                 .HasOne(pt => pt.tag)
                 .WithMany(p => p.ProjectLink)
-                .HasForeignKey(pt => pt.TagId);
+                .HasForeignKey(pt => pt.NomalizedTag);
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }

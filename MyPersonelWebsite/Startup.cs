@@ -42,9 +42,12 @@ namespace MyPersonelWebsite
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IProject, ProjectService>();
             services.AddScoped<ITag, TagService>();
             services.AddScoped<ISkill, SkillService>();
+            services.AddScoped<IContakt, ContaktService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -1,0 +1,68 @@
+﻿@model MyPersonelWebsite.Areas.AdminPanel.Models.Project.ProjectViewModel
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h1>Projects</h1>
+<a asp-controller="Home" asp-action="CreateProject" class="btn btn-success text-white float-right mb-2">Create Project</a>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Desciption</th>
+            <th>Tags Count</th>
+            <th class="text-right mr-2">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.projects)
+        {
+            <tr data-tagid="@item.Id">
+                <td>@item.Title</td>
+                <td>@item.Desciption</td>
+                <td>@item.Tags</td>
+                <td>
+                    <a href="javascript:void(0)" class="_Delete mr-2 float-right ml-2 text-danger"><span class="fas fa-trash"></span></a>
+                    <a asp-controller="Home" asp-action="EditProject" asp-route-Id="@item.Id" class="_Edit mr-2 float-right ml-2 text-primary"><span class="fas fa-wrench"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Modals {
+    <div class="modal fade" id="DeleteTagModal" tabindex="-1" role="dialog" data-DId="" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="Home" asp-action="DeleteProject" id="DTForm" method="post">
+                    <input type="hidden" name="Id" class="_Tid" />
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="DeleteTag" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+         $("._Delete").click(function () {
+            $("#DeleteTagModal").find("._Tid").val($(this).parent().parent().data("tagid"))
+            $("#DeleteTagModal").modal("show");
+        });
+
+        $("#DeleteTag").click(function () {
+            $("#DTForm").submit();
+        });
+    </script>
+}
+
+

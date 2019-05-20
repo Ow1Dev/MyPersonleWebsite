@@ -13,10 +13,11 @@ namespace MyPersonelWebsite.Data
         //TODO: rename it to getTagsbyProjectId
         IEnumerable<Tag> getTagsbyProject(int projectId);
 
-        Tag getById(int id);
+        Tag getByNorTag(string tag);
 
         Task Create(Tag tag);
-        Task UpdateName(int id, string name);
-        Task Delete(int id);
+        Task ClearTagsOnProject(int Projectid);
+        Task UpdateName(string tagname, string name);
+        Task Delete(string tag);
     }
 }

@@ -1,0 +1,49 @@
+﻿div.chips-input {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    cursor: text;
+    background-color: #fff;
+
+    div.chipsSpace {
+        display: flow-root;
+    }
+
+    a.chips {
+        min-width: 52px;
+        padding: 0 10px;
+        margin: 5px 2px;
+        background-color: gray;
+        border-radius: 50px;
+        text-align: center;
+        cursor: text;
+        color: white;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+
+        &:hover {
+            background-color: dimgray;
+            color: white;
+        }
+    }
+
+    input {
+        width: 6em;
+        border: none;
+
+        &::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &:focus {
+        outline: 2px solid blue;
+    }
+}

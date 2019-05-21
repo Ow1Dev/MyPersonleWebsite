@@ -34,6 +34,7 @@ namespace MyPersonelWebsite.Controllers
                     Id = project.Id,
                     Name = project.Title,
                     Description = project.Desciption,
+                    imgPath = project.ImgPath,
                     tags = _TagService.getTagsbyProject(project.Id)
                 }).ToList();
 

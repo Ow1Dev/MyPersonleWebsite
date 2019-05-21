@@ -1,0 +1,68 @@
+﻿@import "_Color.scss";
+
+$Background-Color: #fff;
+$Border-Color: lighten(#333, 10%);
+
+.ProjectGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 430px));
+    justify-content: space-between;
+}
+
+.Card {
+    border: 2px solid $Border-Color;
+    border-radius: 5px;
+    margin-bottom: 50px;
+    width: 100%;
+    color: $Background-Color;
+    padding-bottom: 1em;
+
+    $Border-shadow: 10px 10px 29px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: $Border-shadow;
+    -moz-box-shadow: $Border-shadow;
+    box-shadow: $Border-shadow;
+
+    img {
+        padding: 0;
+        margin: 0;
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    a {
+        display: block;
+        font-size: 2.5em;
+        font-weight: 600;
+        border-top: 2px solid $Border-Color;
+        margin-top: -5px;
+        color: $Background-Color;
+        text-decoration: none;
+        min-width: 100%;
+
+        &:hover {
+            color: darken($Background-Color, 25%);
+        }
+    }
+
+    &-tags {
+        border-top: 2px solid $Border-Color;
+        padding: 10px 0.2em;
+        height: auto;
+    }
+
+    &-dec {
+        border-top: 2px solid $Border-Color;
+        padding: 5px 1em;
+        height: 5em;
+    }
+}
+
+span.chip {
+    border-radius: 11px;
+    background-color: $Primery-Color;
+    /*background-color: #9C9C9C;*/
+    padding: 5px 5px;
+    margin-left: 5px;
+    color: $Background-Color;
+}

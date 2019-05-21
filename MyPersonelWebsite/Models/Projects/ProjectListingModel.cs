@@ -11,6 +11,7 @@ namespace MyPersonelWebsite.Models.Projects
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string imgPath { get; set; }
         public IEnumerable<Tag> tags { get; set; }
     }
 }

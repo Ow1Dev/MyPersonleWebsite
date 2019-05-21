@@ -1,4 +1,6 @@
-﻿nav {
+﻿@import "_Color.scss";
+
+nav {
     .burger {
         display: inline-block;
         cursor: pointer;
@@ -7,6 +9,7 @@
         right: 10px;
         z-index: 5;
 
+
         .bar {
             width: 35px;
             height: 5px;
@@ -14,6 +17,10 @@
             margin: 6px 0;
             transition: 0.4s;
             border-radius: 4px;
+        }
+
+        &.white .bar {
+            background-color: #ffffff;
         }
 
         &.change .bar {
@@ -71,8 +78,12 @@
                 width: 100%;
                 padding: 0 2em;
 
+                @media screen and (max-width: 1000px) {
+                    padding: 0;
+                }
+
                 &.active a {
-                    color: tomato;
+                    color: $Primery-Color;
                 }
 
                 &:first-child {
@@ -86,7 +97,7 @@
                     font-size: 2.5em;
 
                     &:hover {
-                        color: tomato;
+                        color: $Primery-Color;
                     }
                 }
 
